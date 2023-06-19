@@ -73,6 +73,8 @@ touch $ENVDIR/gcc-arm-none-eabi/gcc_version_9-2020-q2
 echo -e "${BLUE}Installing Python3${WHITE}"
 cd $ENVDIR/.tmp
 
+sudo apt install zlib1g-dev
+
 download_archive "openssl-1.1.1g.tar.gz" "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46" "https://www.openssl.org/source/openssl-1.1.1g.tar.gz"
 
 if ! test -d "$ENVDIR/openssl"; then
@@ -109,6 +111,7 @@ make install
 
 cd $ENVDIR/python-install/python-3.10.12/bin/
 
+./python3 -m ensurepip --upgrade
 ./python3 -m pip install wheel
 ./python3 -m pip install python-dateutil
 ./python3 -m pip install pyparsing

@@ -111,7 +111,7 @@ make install
 
 cd $ENVDIR/python-install/python-3.10.12/bin/
 
-curl -O https://bootstrap.pypa.io/get-pip.py
+wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py --no-check-certificate
 sudo ./python3 get-pip.py
 
 ./python3 -m pip install wheel

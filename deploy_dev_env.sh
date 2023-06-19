@@ -15,7 +15,7 @@ download_archive() {
         if ! [ -z "$4" ]; then
             wget -O $1 --post-data=$4 $3 --no-check-certificate
         else
-            wget -O $1 $3
+            wget -O $1 $3 --no-check-certificate
         fi
         if [ ! [ $(sha256sum $1) = "$2  $1" ]]; then
             echo -e "${RED}$1 download failure${WHITE}"

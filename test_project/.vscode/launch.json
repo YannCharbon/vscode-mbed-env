@@ -3,7 +3,7 @@
     "configurations": [
         {
             "cwd": "${workspaceRoot}",
-            "executable": "./BUILD/DISCO_F769NI/GCC_ARM-DEBUG/${workspaceFolderBasename}_application.elf",
+            "executable": "./BUILD/DISCO_F769NI/GCC_ARM-DEBUG/${workspaceFolderBasename}.elf",
             "name": "STM32F769 Debug with OpenOCD",
             "request": "launch",
             "type": "cortex-debug",

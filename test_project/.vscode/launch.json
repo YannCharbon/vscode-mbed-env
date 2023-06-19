@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./BUILD/DISCO_F769NI/GCC_ARM-DEBUG/${workspaceFolderBasename}_application.elf",
+            "name": "STM32F769 Debug with OpenOCD",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "board/stm32f769i-disco.cfg"
+            ],
+            "searchDir": [
+                "${workspaceRoot}"
+            ],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none"
+        }
+    ]
+}

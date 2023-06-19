@@ -1,0 +1,1 @@
+openocd -f board/stm32f769i-disco.cfg -c "program BUILD/DISCO_F769NI/GCC_ARM-DEBUG/$1.bin 0x08000000" -c "reset run" -c "shutdown"

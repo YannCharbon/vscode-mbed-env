@@ -1,0 +1,67 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "===== BUILD DISCO F769 =====",
+            "command": ""
+        },
+        {
+            "label": "🔨 Build program (GCC release)",
+            "command": "mbed",
+            "args": [
+                "compile",
+                "--profile=release",
+                "-m",
+                "DISCO_F769NI",
+                "-t",
+                "GCC_ARM"
+            ]
+        },
+        {
+            "label": "🔨🐞 Build program (GCC debug)",
+            "command": "mbed",
+            "args": [
+                "compile",
+                "--profile=debug",
+                "-m",
+                "DISCO_F769NI",
+                "-t",
+                "GCC_ARM"
+            ]
+        },
+        {
+            "label": "===== DISCO L769 Flash =====",
+            "command": ""
+        },
+        {
+            "label": "🚀 Openocd flash (GCC release) F769",
+            "command": "./flash_stm32f769disco_release.sh",
+            "args": [
+                "${workspaceFolderBasename}"
+            ]
+        },
+        {
+            "label": "🚀🐞 Openocd flash (GCC debug) F769",
+            "command": "./flash_stm32f769disco.sh",
+            "args": [
+                "${workspaceFolderBasename}"
+            ]
+        },
+        {
+            "label": "===== Configs =====",
+            "command": ""
+        },
+        {
+            "label": "⚙️ Show config l769",
+            "command": "mbed",
+            "args": [
+                "compile",
+                "-m",
+                "DISCO_F769NI",
+                "-t",
+                "GCC_ARM",
+                "--config"
+            ]
+        }
+    ]
+}

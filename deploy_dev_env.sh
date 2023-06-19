@@ -29,6 +29,7 @@ echo -e "${BLUE}Installing prerequisites${WHITE}"
 
 sudo apt install wget -y
 sudo apt install make -y
+sudo apt install gcc -y
 
 ENVDIR=/home/$(whoami)/mbed-dev-env
 mkdir -p $ENVDIR

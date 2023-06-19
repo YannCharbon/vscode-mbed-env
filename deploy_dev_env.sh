@@ -170,6 +170,7 @@ sudo wget -O /etc/udev/rules.d/49-stlinkv3.rules https://raw.githubusercontent.c
 sudo wget -O /etc/udev/rules.d/49-stlinkv2.rules https://raw.githubusercontent.com/stlink-org/stlink/master/config/udev/rules.d/49-stlinkv2.rules --no-check-certificate
 sudo wget -O /etc/udev/rules.d/49-stlinkv1.rules https://raw.githubusercontent.com/stlink-org/stlink/master/config/udev/rules.d/49-stlinkv1.rules --no-check-certificate
 sudo wget -O /etc/udev/rules.d/49-stlinkv2-1.rules https://raw.githubusercontent.com/stlink-org/stlink/master/config/udev/rules.d/49-stlinkv2-1.rules --no-check-certificate
+sudo udevadm control --reload
 
 # Cleanup
 echo "Cleaning temp folder"

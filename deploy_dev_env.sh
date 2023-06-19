@@ -123,6 +123,7 @@ sudo ./python3 get-pip.py
 wget -O mbed-requirements.txt https://raw.githubusercontent.com/ARMmbed/mbed-os/master/requirements.txt --no-check-certificate
 ./python3 -m pip install -r mbed-requirements.txt
 rm -f mbed-requirements.txt
+sudo apt install mercurial
 
 PATH=$OLDPATH
 

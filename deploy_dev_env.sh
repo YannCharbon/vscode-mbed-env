@@ -73,8 +73,7 @@ touch $ENVDIR/gcc-arm-none-eabi/gcc_version_9-2020-q2
 echo -e "${BLUE}Installing Python3${WHITE}"
 cd $ENVDIR/.tmp
 
-sudo apt install zlib1g-dev
-sudo apt install libffi-dev
+sudo apt install -y libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev
 
 download_archive "openssl-1.1.1g.tar.gz" "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46" "https://www.openssl.org/source/openssl-1.1.1g.tar.gz"
 
@@ -101,7 +100,6 @@ cd Python-3.10.12
     --enable-shared \
     --enable-optimizations \
     --enable-ipv6 \
-    --with-ensurepip=install \
     --with-openssl=$ENVDIR/openssl \
     LDFLAGS=-Wl,-rpath=$ENVDIR/python-install/python-3.10.12/lib,--disable-new-dtags
 
@@ -113,14 +111,16 @@ make install
 
 cd $ENVDIR/python-install/python-3.10.12/bin/
 
-./python3 -m ensurepip --upgrade
+curl -O https://bootstrap.pypa.io/get-pip.py
+sudo ./python3 get-pip.py
+
 ./python3 -m pip install wheel
 ./python3 -m pip install python-dateutil
 ./python3 -m pip install pyparsing
 ./python3 -m pip install mbed-cli --target $ENVDIR/mbed-cli
 
 # Install mbed cli requirements
-wget -O mbed-requirements.txt https://raw.githubusercontent.com/ARMmbed/mbed-os/master/requirements.txt
+wget -O mbed-requirements.txt https://raw.githubusercontent.com/ARMmbed/mbed-os/master/requirements.txt --no-check-certificate
 ./python3 -m pip install -r mbed-requirements.txt
 rm -f mbed-requirements.txt
 

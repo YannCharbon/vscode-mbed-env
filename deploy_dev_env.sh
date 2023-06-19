@@ -89,6 +89,7 @@ fi
 
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$ENVDIR/openssl/lib/
 
+cd $ENVDIR/.tmp
 download_archive "Python-3.10.12.tgz" "a43cd383f3999a6f4a7db2062b2fc9594fefa73e175b3aedafa295a51a7bb65c" "https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz"
 
 tar -xvzf Python-3.10.12.tgz

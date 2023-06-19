@@ -17,7 +17,7 @@ download_archive() {
         else
             wget -O $1 $3 --no-check-certificate
         fi
-        if [ ! [ $(sha256sum $1) = "$2  $1" ]]; then
+        if ! [[ $(sha256sum $1) = "$2  $1" ]]; then
             echo -e "${RED}$1 download failure${WHITE}"
             exit
         fi
@@ -74,6 +74,7 @@ echo -e "${BLUE}Installing Python3${WHITE}"
 cd $ENVDIR/.tmp
 
 sudo apt install zlib1g-dev
+sudo apt install libffi-dev
 
 download_archive "openssl-1.1.1g.tar.gz" "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46" "https://www.openssl.org/source/openssl-1.1.1g.tar.gz"
 

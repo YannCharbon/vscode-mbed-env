@@ -162,6 +162,15 @@ cd JLink_Linux_V788h_x86_64
 mkdir -p $ENVDIR/jlink
 cp -r . $ENVDIR/jlink
 
+# Fixup
+## USB permission fixup
+sudo usermod -a -G dialout $USER
+sudo usermod -a -G plugdev $USER
+sudo wget -O /etc/udev/rules.d/49-stlinkv3.rules https://raw.githubusercontent.com/stlink-org/stlink/master/config/udev/rules.d/49-stlinkv3.rules --no-check-certificate
+sudo wget -O /etc/udev/rules.d/49-stlinkv2.rules https://raw.githubusercontent.com/stlink-org/stlink/master/config/udev/rules.d/49-stlinkv2.rules --no-check-certificate
+sudo wget -O /etc/udev/rules.d/49-stlinkv1.rules https://raw.githubusercontent.com/stlink-org/stlink/master/config/udev/rules.d/49-stlinkv1.rules --no-check-certificate
+sudo wget -O /etc/udev/rules.d/49-stlinkv2-1.rules https://raw.githubusercontent.com/stlink-org/stlink/master/config/udev/rules.d/49-stlinkv2-1.rules --no-check-certificate
+
 # Cleanup
 echo "Cleaning temp folder"
 rm -rf $ENVDIR/.tmp

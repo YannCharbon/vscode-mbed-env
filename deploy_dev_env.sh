@@ -13,7 +13,7 @@ download_archive() {
     else
         echo "File not valid or inexistant. Downloading..."
         if ! [ -z "$4" ]; then
-            wget -O $1 --post-data=$4 $3
+            wget -O $1 --post-data=$4 $3 --no-check-certificate
         else
             wget -O $1 $3
         fi
@@ -27,6 +27,7 @@ download_archive() {
 # Prerequisites
 echo -e "${BLUE}Installing prerequisites${WHITE}"
 
+sudo apt update
 sudo apt install wget -y
 sudo apt install make -y
 sudo apt install gcc -y
@@ -96,7 +97,8 @@ cd Python-3.10.12
     --enable-shared \
     --enable-optimizations \
     --enable-ipv6 \
-    --with-openssl=$ENVDIR/openssl\
+    --with-ensurepip=install \
+    --with-openssl=$ENVDIR/openssl \
     LDFLAGS=-Wl,-rpath=$ENVDIR/python-install/python-3.10.12/lib,--disable-new-dtags
 
 make -j8
@@ -111,6 +113,11 @@ cd $ENVDIR/python-install/python-3.10.12/bin/
 ./python3 -m pip install python-dateutil
 ./python3 -m pip install pyparsing
 ./python3 -m pip install mbed-cli --target $ENVDIR/mbed-cli
+
+# Install mbed cli requirements
+wget -O mbed-requirements.txt https://raw.githubusercontent.com/ARMmbed/mbed-os/master/requirements.txt
+./python3 -m pip install -r mbed-requirements.txt
+rm -f mbed-requirements.txt
 
 PATH=$OLDPATH
 
@@ -131,6 +138,9 @@ git checkout 9ea7f3d
 sudo apt install libtool -y
 sudo apt install pkg-config -y
 sudo apt install libusb-1.0-0-dev -y
+sudo apt install autoconf -y
+sudo apt install automake -y
+sudo apt install texinfo -y
 ./bootstrap
 ./configure --prefix=$ENVDIR/openocd --exec-prefix=$ENVDIR/openocd/bin --enable-jlink --enable-stlink
 make

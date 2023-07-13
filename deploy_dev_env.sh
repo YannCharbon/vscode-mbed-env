@@ -81,35 +81,39 @@ if ! test -d "$ENVDIR/openssl"; then
     tar -zxvf openssl-1.1.1g.tar.gz
     cd openssl-1.1.1g
 
-    ./config --prefix=$ENVDIR/openssl --openssldir=$ENVDIR/openssl no-ssl2
+    ./config --prefix=$ENVDIR/openssl --openssldir=$ENVDIR/openssl/ssl no-ssl2
     make
     #make test
     make install_sw
 fi
 
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$ENVDIR/openssl/lib/
+export LD_LIBRARY_PATH=$ENVDIR/openssl/lib:$LD_LIBRARY_PATH
 
 cd $ENVDIR/.tmp
-download_archive "Python-3.10.12.tgz" "a43cd383f3999a6f4a7db2062b2fc9594fefa73e175b3aedafa295a51a7bb65c" "https://www.python.org/ftp/python/3.10.12/Python-3.10.12.tgz"
+download_archive "Python-3.7.17.tgz" "fd50161bc2a04f4c22a0971ff0f3856d98b4bf294f89740a9f06b520aae63b49" "https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tgz"
 
-tar -xvzf Python-3.10.12.tgz
-cd Python-3.10.12
+tar -xvzf Python-3.7.17.tgz
+cd Python-3.7.17
+
+#LDFLAGS="-L$ENVDIR/openssl/lib"
 
 ./configure \
-    --prefix=$ENVDIR/python-install/python-3.10.12/ \
+    --prefix=$ENVDIR/python-install/python-3.7.17/ \
     --enable-shared \
-    --enable-optimizations \
     --enable-ipv6 \
     --with-openssl=$ENVDIR/openssl \
-    LDFLAGS=-Wl,-rpath=$ENVDIR/python-install/python-3.10.12/lib,--disable-new-dtags
+    LDFLAGS=-Wl,-rpath=$ENVDIR/python-install/python-3.7.17/lib,--disable-new-dtags,-L$ENVDIR/openssl/lib
 
 make -j8
 
 OLDPATH=$PATH
-PATH=$PATH:$ENVDIR/python-install/python-3.10.12/bin/
+PATH=$PATH:$ENVDIR/python-install/python-3.7.17/bin/
 make install
 
-cd $ENVDIR/python-install/python-3.10.12/bin/
+# Copy the openssl libraries to the python lib folder
+cp -r $ENVDIR/openssl/lib/* $ENVDIR/python-install/python-3.7.17/lib/
+
+cd $ENVDIR/python-install/python-3.7.17/bin/
 
 wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py --no-check-certificate
 sudo ./python3 get-pip.py
@@ -117,13 +121,14 @@ sudo ./python3 get-pip.py
 ./python3 -m pip install wheel
 ./python3 -m pip install python-dateutil
 ./python3 -m pip install pyparsing
-./python3 -m pip install mbed-cli --target $ENVDIR/mbed-cli
 
 # Install mbed cli requirements
 wget -O mbed-requirements.txt https://raw.githubusercontent.com/ARMmbed/mbed-os/master/requirements.txt --no-check-certificate
 ./python3 -m pip install -r mbed-requirements.txt
 rm -f mbed-requirements.txt
 sudo apt install mercurial
+./python3 -m pip install mbed-cli --target $ENVDIR/mbed-cli
+./python3 -m pip install mbed-cli
 
 PATH=$OLDPATH
 
@@ -183,6 +188,7 @@ mkdir -p $ENVDIR/utilities
 
 touch $ENVDIR/utilities/envrc.content
 echo "MBEDENVDIR=/home/$(whoami)/mbed-dev-env" > $ENVDIR/utilities/envrc.content
+#echo "PATH_add \$MBEDENVDIR/python-install/python-3.7.17/bin/" >> $ENVDIR/utilities/envrc.content
 echo "PATH_add \$MBEDENVDIR/mbed-cli/bin/" >> $ENVDIR/utilities/envrc.content
 echo "PATH_add \$MBEDENVDIR/vscode/bin/" >> $ENVDIR/utilities/envrc.content
 echo "PATH_add \$MBEDENVDIR/gcc-arm-none-eabi/bin/" >> $ENVDIR/utilities/envrc.content

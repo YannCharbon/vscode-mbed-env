@@ -1,5 +1,10 @@
 {
     "version": "2.0.0",
+    "command": "bash",
+    "showOutput": "always",
+    "args": [
+        "-c"
+    ],
     "tasks": [
         {
             "label": "===== General =====",
@@ -19,44 +24,30 @@
         },
         {
             "label": "🔨 Build program (GCC release)",
-            "command": "mbed",
             "args": [
-                "compile",
-                "--profile=release",
-                "-m",
-                "DISCO_F769NI",
-                "-t",
-                "GCC_ARM"
+                "mbed compile --profile=release -m DISCO_F769NI -t GCC_ARM"
             ]
         },
         {
             "label": "🔨🐞 Build program (GCC debug)",
-            "command": "mbed",
             "args": [
-                "compile",
-                "--profile=debug",
-                "-m",
-                "DISCO_F769NI",
-                "-t",
-                "GCC_ARM"
+                "mbed compile --profile=debug -m DISCO_F769NI -t GCC_ARM"
             ]
         },
         {
             "label": "🚀 Openocd flash (GCC release)",
-            "command": "./flash_stm32f769disco_release.sh",
             "args": [
-                "${workspaceFolderBasename}"
+                "mkdir -p .scripts && echo 'openocd -f board/stm32f769i-disco.cfg -c \"program BUILD/DISCO_F769NI/GCC_ARM-RELEASE/${workspaceFolderBasename}.bin 0x08000000\" -c \"reset run\" -c \"shutdown\"' > .scripts/flash_stm32f769disco_release.sh && bash .scripts/flash_stm32f769disco_release.sh"
             ]
         },
         {
             "label": "🚀🐞 Openocd flash (GCC debug)",
-            "command": "./flash_stm32f769disco.sh",
             "args": [
-                "${workspaceFolderBasename}"
+                "mkdir -p .scripts && echo 'openocd -f board/stm32f769i-disco.cfg -c \"program BUILD/DISCO_F769NI/GCC_ARM-DEBUG/${workspaceFolderBasename}.bin 0x08000000\" -c \"reset run\" -c \"shutdown\"' > .scripts/flash_stm32f769disco_debug.sh && bash .scripts/flash_stm32f769disco_debug.sh"
             ]
         },
         {
-            "label": "⚙️ Show Mbed config",
+            "label": "⚙️ Show config l769",
             "command": "mbed",
             "args": [
                 "compile",

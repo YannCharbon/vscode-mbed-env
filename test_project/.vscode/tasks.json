@@ -2,7 +2,19 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "===== BUILD DISCO F769 =====",
+            "label": "===== General =====",
+            "command": ""
+        },
+        {
+            "label": "⚙️ Initialize Mbed OS project",
+            "command": "mbed",
+            "args": [
+                "new",
+                "."
+            ]
+        },
+        {
+            "label": "===== DISCO F769 =====",
             "command": ""
         },
         {
@@ -30,29 +42,21 @@
             ]
         },
         {
-            "label": "===== DISCO L769 Flash =====",
-            "command": ""
-        },
-        {
-            "label": "🚀 Openocd flash (GCC release) F769",
+            "label": "🚀 Openocd flash (GCC release)",
             "command": "./flash_stm32f769disco_release.sh",
             "args": [
                 "${workspaceFolderBasename}"
             ]
         },
         {
-            "label": "🚀🐞 Openocd flash (GCC debug) F769",
+            "label": "🚀🐞 Openocd flash (GCC debug)",
             "command": "./flash_stm32f769disco.sh",
             "args": [
                 "${workspaceFolderBasename}"
             ]
         },
         {
-            "label": "===== Configs =====",
-            "command": ""
-        },
-        {
-            "label": "⚙️ Show config l769",
+            "label": "⚙️ Show Mbed config",
             "command": "mbed",
             "args": [
                 "compile",

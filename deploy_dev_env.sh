@@ -42,10 +42,11 @@ mkdir -p $ENVDIR/.tmp
 echo -e "${BLUE}Installing VSCode${WHITE}"
 cd $ENVDIR/.tmp
 
-download_archive "vscode_linux_x64_stable.tar.gz" "ef47904485951cf557a7402a40b163291c3131d420efe0d9e443dbd513b7ca82" "https://az764295.vo.msecnd.net/stable/4cb974a7aed77a74c7813bdccd99ee0d04901215/code-stable-x64-1686587897.tar.gz"
+download_archive "vscode_linux_x64_stable.tar.gz" "66b4c2fc830d8114ec76318d9a604ab3c8e8165c95a6d0d1453b55a97cf9dab7" "https://vscode.download.prss.microsoft.com/dbazure/download/stable/65edc4939843c90c34d61f4ce11704f09d3e5cb6/code-stable-x64-1730354220.tar.gz"
 
 echo "Installing VSCode to environment"
 tar -xvzf vscode_linux_x64_stable.tar.gz
+cd vscode_linux_x64_stable
 cp -r *VSCode* $ENVDIR/vscode
 cd $ENVDIR/vscode
 mkdir data
@@ -54,7 +55,7 @@ cd bin
 ./code --install-extension ms-vscode.cpptools-extension-pack
 ./code --install-extension ms-vscode.cpptools-themes
 ./code --install-extension nemesv.copy-file-name
-./code --install-extension marus25.cortex-debug@1.4.4
+./code --install-extension marus25.cortex-debug
 ./code --install-extension SanaAjani.taskrunnercode
 ./code --install-extension tomoki1207.pdf
 
@@ -62,11 +63,12 @@ cd bin
 echo -e "${BLUE}Installing ARM GCC toolchain${WHITE}"
 cd $ENVDIR/.tmp
 
-download_archive "gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2" "5adc2ee03904571c2de79d5cfc0f7fe2a5c5f54f44da5b645c17ee57b217f11f" "https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-rm/9-2020q2/gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2"
+#download_archive "gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2" "5adc2ee03904571c2de79d5cfc0f7fe2a5c5f54f44da5b645c17ee57b217f11f" "https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-rm/9-2020q2/gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2"
+download_archive "arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi.tar.xz" "12a2815644318ebcceaf84beabb665d0924b6e79e21048452c5331a56332b309" "https://developer.arm.com/-/media/Files/downloads/gnu/12.3.rel1/binrel/arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi.tar.xz"
 
-tar -xvf gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz2
-cp -r gcc-arm-none-eabi-9-2020-q2-update $ENVDIR/gcc-arm-none-eabi
-touch $ENVDIR/gcc-arm-none-eabi/gcc_version_9-2020-q2
+tar -xvf arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi.tar.xz
+cp -r arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi $ENVDIR/gcc-arm-none-eabi
+touch $ENVDIR/gcc-arm-none-eabi/arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi
 
 
 ## Python
@@ -194,6 +196,8 @@ echo "PATH_add \$MBEDENVDIR/vscode/bin/" >> $ENVDIR/utilities/envrc.content
 echo "PATH_add \$MBEDENVDIR/gcc-arm-none-eabi/bin/" >> $ENVDIR/utilities/envrc.content
 echo "PATH_add \$MBEDENVDIR/openocd/bin/bin" >> $ENVDIR/utilities/envrc.content
 echo "PATH_add \$MBEDENVDIR/jlink" >> $ENVDIR/utilities/envrc.content
+echo "export PYTHONHOME=\$MBEDENVDIR/python-install/python-3.7.17" >> $ENVDIR/utilities/envrc.content
+echo "export PYTHONPATH=\$MBEDENVDIR/python-install/python-3.7.17/lib/python3.7:\$MBEDENVDIR/python-install/python-3.7.17/lib/python3.7/encodings" >> $ENVDIR/utilities/envrc.content
 echo "echo 'Mbed environment with VSCode has been setup and is ready to be used.'"  >> $ENVDIR/utilities/envrc.content
 
 touch $ENVDIR/utilities/mbedify.sh
@@ -211,7 +215,7 @@ echo "Installation folder: /home/$(whoami)/mbed-dev-env"
 echo -e "Summary of the installed components:"
 echo -e "  - VScode with extensions (command(s): ${BLUE}code${WHITE})"
 echo -e "  - Mbed CLI 1 (command(s): ${BLUE}mbed${WHITE})"
-echo -e "  - ARM-GCC toolchain 9 (command(s): ${BLUE}arm-none-eabi-xxx${WHITE})"
+echo -e "  - ARM-GCC toolchain 12 (command(s): ${BLUE}arm-none-eabi-xxx${WHITE})"
 echo -e "  - OpenOCD 0.12.0 (command(s): ${BLUE}openocd${WHITE})"
 echo -e "  - JLink commander 7.88h (command(s): ${BLUE}JLinkExe${WHITE})"
 echo "==============================="
@@ -225,6 +229,8 @@ echo "PATH_add \$MBEDENVDIR/vscode/bin/"
 echo "PATH_add \$MBEDENVDIR/gcc-arm-none-eabi/bin/"
 echo "PATH_add \$MBEDENVDIR/openocd/bin/bin"
 echo "PATH_add \$MBEDENVDIR/jlink"
+echo "export PYTHONHOME=\$MBEDENVDIR/python-install/python-3.7.17"
+echo "export PYTHONPATH=\$MBEDENVDIR/python-install/python-3.7.17/lib/python3.7:\$MBEDENVDIR/python-install/python-3.7.17/lib/python3.7/encodings"
 echo "==============================="
 echo "Finally, run 'direnv allow' within the folder to enable the automatic environment setup when you enter the folder."
 echo ""

@@ -179,6 +179,11 @@ sudo wget -O /etc/udev/rules.d/49-stlinkv1.rules https://raw.githubusercontent.c
 sudo wget -O /etc/udev/rules.d/49-stlinkv2-1.rules https://raw.githubusercontent.com/stlink-org/stlink/master/config/udev/rules.d/49-stlinkv2-1.rules --no-check-certificate
 sudo udevadm control --reload
 
+sudo touch /etc/udev/rules.d/99-jlink.rules
+sudo echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="1366", ATTR{idProduct}=="0101", MODE="0666"' > /etc/udev/rules.d/99-jlink.rules
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+
 # Cleanup
 echo "Cleaning temp folder"
 rm -rf $ENVDIR/.tmp
